@@ -344,6 +344,18 @@ else ifeq ($(platform), miyoo)
    CFLAGS += -D_GNU_SOURCE=1
    CFLAGS += -ffast-math -march=armv5te -mtune=arm926ej-s 
 
+#XYDDS
+else ifeq ($(platform), xydds)
+   TARGET := $(TARGET_NAME)_libretro.so
+   CC = /opt/xydds/usr/bin/arm-linux-gcc
+   CXX = /opt/xydds/usr/bin/arm-linux-g++
+   AR = /opt/xydds/usr/bin/arm-linux-ar
+   fpic := -fPIC
+   SHARED := -shared -Wl,--version-script=$(CORE_DIR)/libretro/link.T -Wl,-no-undefined
+   CFLAGS += -D_GNU_SOURCE=1
+   CFLAGS += -ffast-math -marm -mfpu=neon-vfpv4 -mfloat-abi=hard 
+   CFLAGS += -DARM -mcpu=cortex-a7
+
 else ifeq ($(platform),emscripten)
    TARGET := $(TARGET_NAME)_libretro_$(platform).bc
 	STATIC_LINKING = 1
